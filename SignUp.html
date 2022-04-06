@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+</head>
+<style>
+#container{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 14px;
+    border-radius: 5px;
+
+}
+#container>h2{
+    margin-top: -1px;
+    margin-bottom: -1px;
+
+}
+#form>label{
+    margin-top: 19px;
+}
+#form{
+    display: flex;
+    flex-direction: column;
+    
+}
+#form>input:last-child{
+    margin-top: 15px;
+    background-color: rgb(224, 202, 82);
+    border: 1px;
+}
+#form>input{
+    padding: 3px;
+    border-radius: 3px;
+}
+#login
+{
+    margin-bottom: 16px;
+
+}
+#login>a
+{
+    text-decoration: none;
+    /* margin-top: 5px; */
+}
+#login>p
+{
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+/* #form  */
+</style>
+<body>
+    <div id="login">
+        <p>Already have Account?</p>
+        <a href="./Login.html">Login Here</a>
+    </div>
+    <div id="container">
+        <h2>Create Account</h2>
+
+        <form id="form" action="">
+            <label for="name"> Your Name</label>
+            <input type="text" id="name">
+            <label for="email">Email</label>
+            <input type="email" id="email">
+            <label for="">Password</label>
+            <input type="password" id="password" placeholder="At least 6 characters">
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</body>
+
+<script>
+    document.querySelector("form").addEventListener("submit",registerfunc);
+    var userDetails=JSON.parse(localStorage.getItem("userDetail")) || [];
+    function registerfunc()
+    {
+        event.preventDefault();
+
+        var user={
+            name:document.querySelector("#name").value,
+            email:document.querySelector("#email").value,
+            password:document.querySelector("#password").value,
+        }
+
+        userDetails.push(user);
+        localStorage.setItem("userDetail",JSON.stringify(userDetails) );
+        window.location.href="Login.html"
+    }
+</script>
+</html>

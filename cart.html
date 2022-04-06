@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        #container{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 30px;
+            margin: 40px;
+        }
+        #container>div{
+            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        #head{
+            text-align: center;
+        }
+        #priceDetails{
+           width: 250px;
+           margin: auto;
+           padding: 5px 18px;
+           box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        }
+    </style>
+</head>
+<body>
+    <a href="./Home.html">Home</a>
+    <h1 id="head">My Cart</h1>
+    <div id="priceDetails" >
+        <h2>Price Details</h2>
+       
+        <h4 id="price"></h4>
+        <h4 id="discount"></h4>
+        <h4 id="delivery"></h4>
+        <h4 id="total"></h4>
+    </div>
+    <div id="container">
+
+    </div>
+</body>
+<script>
+    var cartItem=JSON.parse(localStorage.getItem("cart")) || [];
+    
+    var price=cartItem.reduce(function(acc,currVal)
+    {
+        return acc+=+(currVal.price)
+    },0)
+    document.querySelector("#price").innerText="Price :Rs "+price
+    document.querySelector("#discount").innerText="Disount :Rs "+Math.floor(price*0.1);
+    if(price==0)
+    {
+        var delivery=0
+    }else{
+       var delivery=50
+    }
+    document.querySelector("#delivery").innerText="Delivery Charge : Rs "+ delivery;
+    var total=Math.floor(price-(price*0.1)-delivery)
+    document.querySelector("#total").innerText="Total : Rs "+ total;
+    cartItem.forEach(function(item,index)
+    {
+        var box=document.createElement("div");
+
+        var img=document.createElement("img");
+        img.setAttribute("src",item.image_url);
+
+        var name=document.createElement("h4");
+        name.innerText=item.name;
+
+        var price=document.createElement("p");
+        price.innerText="Price : $"+item.price;
+
+        var button=document.createElement("button");
+        button.innerText="Delete Item"
+        button.addEventListener("click",function(){
+            cartItem.splice(index,1);
+            localStorage.setItem("cart",JSON.stringify(cartItem))
+            window.location.reload();
+        });
+        box.append(img,name,price,button);
+
+        document.querySelector("#container").append(box)
+    })
+    
+    </script>
+</html>
