@@ -7,6 +7,17 @@
     <title>Men</title>
 </head>
 <style>
+  #navbar{
+    display: flex;
+    justify-content: space-around;
+    background-color: black;
+    color: azure;
+}
+#navbar a{
+    text-decoration: none;
+    color: aliceblue;
+
+}
     #container{
         display: grid;
         grid-template-columns: repeat(4,1fr);
@@ -33,11 +44,46 @@
     }
 
     .box:hover{
-        box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;    }
+        box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;    
+        }
+
+      #filter{
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 30px;
+      }
+      #filter input,select{
+        padding: 3px;
+      }
 </style>
 <body>
-    <a href="./cart.html">Move to Cart</a>
+  <div id="navbar">
+    <h3><a href="./Men.html">Men</a></h3>
+    <h3><a href="./Women.html">Women</a></h3>
+    <h5>Hey, <a href="./SignUp.html">Signup Here</a></h5>
+    <h5><a href="./Login.html">Login</a></h5>
+    <h5><a href="./cart.html">My Cart</a></h5>
+</div>
+    
     <h1 id="head">Men's Fashion</h1>
+    <div id="filter">
+      <label for="sort">Sort By
+        <select name="" id="sort">
+          <option value="">Select</option>
+          <option value="lowToHigh">Low To High</option>
+          <option value="HighToLow">High To Low</option>
+        </select>
+      </label>
+    
+
+    <label for="">Filter by name <input id="search" type="text" placeholder="Product Name"></label>
+   
+    <label for="">Filter by Price 
+      <input id="min" type="number" placeholder="MIN Price">
+      <input id="max" type="number" placeholder="MAX Price">
+    </label>
+    </div>
+   
     <div id="container">
 
     </div>
@@ -299,7 +345,83 @@
   ];
 
         var cart=JSON.parse(localStorage.getItem("cart")) || [];
-        mensData.forEach(function(item)
+        document.querySelector("#sort").addEventListener("change",sortItem)
+        
+        document.querySelector("#search").addEventListener("input", searchFunc);
+       
+        document.querySelector("#min").addEventListener("input", function()
+        {
+          var itemData=mensData;
+        
+
+          var Data=itemData.filter(function(item)
+          {
+            return item.price>document.querySelector("#min").value ;
+          })
+
+          document.querySelector("#container").innerHTML="";
+          show(Data);
+        });
+        document.querySelector("#max").addEventListener("input", function()
+        {
+          var itemData=mensData;
+
+          if(document.querySelector("#min").value==null)
+          {
+            var minPrice=0;
+          }
+          else
+          {
+            var minPrice=document.querySelector("#min").value;
+          }
+          var Data=itemData.filter(function(item)
+          {
+            return item.price<document.querySelector("#max").value && item.price>minPrice;
+          })
+          document.querySelector("#container").innerHTML="";
+          show(Data);
+        });
+
+
+        function searchFunc()
+        {
+          var search=document.querySelector("#search").value;
+          var itemData=mensData;
+
+          var searchedData=itemData.filter(function(item)
+          {
+            return item.name.includes(search);
+          })
+          document.querySelector("#container").innerHTML="";
+          show(searchedData)
+        }
+
+
+
+
+
+        sortItem(mensData)
+        function sortItem(){
+          var items=[...mensData]
+          if(document.querySelector("#sort").value=="lowToHigh")
+          {
+            items.sort((a,b)=>(a.price-b.price))
+          }else if(document.querySelector("#sort").value=="HighToLow")
+          {
+            items.sort((a,b)=>(b.price-a.price))
+          }
+          else
+          {
+            items=mensData
+          }
+          
+          document.querySelector("#container").innerHTML="";
+          
+          show(items);
+        // console.log(items)
+        }
+        function show(data){
+          data.forEach(function(item)
         {
             var box=document.createElement("div");
             box.setAttribute("class","box")
@@ -328,5 +450,7 @@
 
             document.querySelector("#container").append(box)
         })
+        }
+       
 </script>
 </html>

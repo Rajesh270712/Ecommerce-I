@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment GateWay</title>
+</head>
+<style>
+    #head{
+        text-align: center;
+    }
+    #form{
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        margin: auto;
+        padding: 17px;
+        border-radius: 7px;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    #expiry{
+        display: flex;
+    }
+    #expiry>div>input{
+        width: 92%;
+    }
+    #expiry>div{
+        display: flex;
+        flex-direction: column;
+    }
+    #expiry>div>div{
+        display: flex;
+    }
+    #expiry>div>div>input{
+        width: 40%;
+    }
+
+    #form label{
+        margin: 10px 0px 7px 0px;
+    }
+    #form input{
+        border: 1.3px solid rgb(170, 169, 169);
+        border-radius: 4px;
+        padding:  3px;
+    }
+    #form>input:last-child{
+        border: 1px solid rgb(86, 135, 193);
+        padding: 4px;
+        margin: 15px 0px 7px 0px;
+        color: white;
+        background-color: rgb(63, 63, 196);
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    #form input:hover{
+        border: 1.5px solid blue;
+    }
+    #form>input:last-child:hover{
+        cursor: pointer;
+        border: 1px solid rgb(86, 135, 193);
+        background-color: rgb(71, 124, 189);
+    }
+</style>
+<body>
+    <h1 id="head">CoolPay</h1>
+    <form id="form" action="">
+        <label for="name"> Card Owner</label>
+        <input type="text" placeholder="Card Owner Name">
+
+        <label for="number">Card Number</label>
+        <input id="cardNum" type="number" placeholder="Valid Card Number">
+
+        <div id="expiry">
+            <div>
+                <label for="">Expiration Date</label>
+                <div>
+                    <input id="month" type="number" placeholder="MM"><input id="year" placeholder="YY" type="number">
+                </div>
+            </div>
+            <div>
+                <label for="">CVV</label>
+                <input id="cvv" type="number">
+            </div>
+        </div>
+        <input type="submit" value="Confirm Payment">
+    </form>
+</body>
+
+<script>
+    document.querySelector("#form").addEventListener("submit",detailsfunc)
+
+    function detailsfunc()
+    {
+        event.preventDefault();
+        var number=document.querySelector("#cardNum").value;
+        var month=document.querySelector("#month").value;
+        var year=document.querySelector("#year").value;
+        var cvv=document.querySelector("#cvv").value;
+        if(number.length<14)
+        {
+            alert("Please Enter Valid Card Number")
+        }
+        else if(month<1 ||month>12)
+            {
+                alert("Enter Valid month")
+            }
+            else if(year<22)
+            {
+                alert("Your Card is Expired")
+            }
+            else if(cvv.length<3)
+            {
+                alert("Enter Valid cvv")
+            }
+            else{
+                window.location.href="OTP.html"
+            }
+
+    }
+</script>
+</html>

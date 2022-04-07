@@ -22,23 +22,116 @@
         }
         #priceDetails{
            width: 250px;
-           margin: auto;
+           /* margin: auto; */
+           border-radius: 5px;
            padding: 5px 18px;
            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
         }
+
+        #priceDetails>h2{
+            color: grey;
+        }
+        #promo{
+            display: flex;
+            flex-direction: column;
+            width: 250px;
+            /* margin: auto; */
+            /* margin-top: 15px; */
+            border-radius: 5px;
+           padding: 5px 18px;
+           box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        }
+        #promo *{
+            margin: 4px 0px 6px 0px;
+        }
+
+        #promo>input,button{
+            border-radius: 5px;
+        }
+
+        #promo>button{
+            background-color: blue;
+            color: aliceblue;
+        }
+        #promo>button:hover{
+            cursor: pointer;
+            background-color: rgb(91, 91, 246);
+    border: 1px solid rgb(91, 91, 246);
+        }
+        #promo>input{
+            border: 1px solid gray;
+        }
+        #topSection{
+            width: 50%;
+            margin: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        #navbar{
+    display: flex;
+    justify-content: space-around;
+    background-color: black;
+    color: azure;
+}
+#navbar a{
+    text-decoration: none;
+    color: aliceblue;
+
+}
+#promo~div>button{
+    width: 90%;
+    padding: 5px;
+    /* margin: auto; */
+    margin-top: 50px;
+    background-color: blue;
+    margin: 5%;
+    color: aliceblue;
+}
+#promo~div>button:hover{
+    cursor: pointer;
+    background-color: rgb(91, 91, 246);
+    border: 1px solid rgb(91, 91, 246);
+}
+#promo~div>button>a{
+    text-decoration: none;
+    color: aliceblue;
+}
     </style>
 </head>
 <body>
-    <a href="./Home.html">Home</a>
-    <h1 id="head">My Cart</h1>
-    <div id="priceDetails" >
-        <h2>Price Details</h2>
-       
-        <h4 id="price"></h4>
-        <h4 id="discount"></h4>
-        <h4 id="delivery"></h4>
-        <h4 id="total"></h4>
+    <div id="navbar">
+        <h3><a href="./Men.html">Men</a></h3>
+        <h3><a href="./Women.html">Women</a></h3>
+        <h5>Hey, <a href="./SignUp.html">Signup Here</a></h5>
+        <h5><a href="./Login.html">Login</a></h5>
+        <h5><a href="./cart.html">My Cart</a></h5>
     </div>
+    
+    <h1 id="head">My Cart</h1>
+    <div id="topSection">
+        <div id="priceDetails" >
+            <h2>Price Details</h2>
+            <hr id="line">
+           
+            <h4 id="price"></h4>
+            <h4 id="discount"></h4>
+            <h4 id="delivery"></h4>
+            <h4 id="total"></h4>
+        </div>
+    
+        <div>
+            <div id="promo">
+                <label for="">Apply Coupon</label>
+                <input id="promoCode" type="text" placeholder="Enter Promo Code">
+                <button id="promoButton">Apply Promo</button>
+            </div>
+            <div>
+                <button >Checkout</button>
+            </div>
+        </div>
+    </div>
+    
     <div id="container">
 
     </div>
@@ -46,12 +139,35 @@
 <script>
     var cartItem=JSON.parse(localStorage.getItem("cart")) || [];
     
+    document.querySelector("#promo~div>button").addEventListener("click",checkout)
+
+    function checkout(){
+        window.location.href="Payment.html"
+    }
     var price=cartItem.reduce(function(acc,currVal)
     {
         return acc+=+(currVal.price)
     },0)
     document.querySelector("#price").innerText="Price :Rs "+price
-    document.querySelector("#discount").innerText="Disount :Rs "+Math.floor(price*0.1);
+    var discount=0
+    document.querySelector("#promoButton").addEventListener("click",function()
+    {
+        if(document.querySelector("#promoCode").value=="masai30")
+        {
+            var discount=Math.floor(price*0.3)
+            document.querySelector("#discount").innerText="Discount :Rs "+ discount;
+            var total=Math.floor(price-(discount)-delivery)
+            document.querySelector("#total").innerText="Total : Rs "+ total;
+            localStorage.setItem("pay",total);
+            alert("Promo Code Applied!")
+        }
+        else{
+            var discount=0;
+        }
+        // console.log(discount)
+        // window.location.reload();
+    })
+    document.querySelector("#discount").innerText="Discount :Rs "+ discount;
     if(price==0)
     {
         var delivery=0
@@ -59,8 +175,9 @@
        var delivery=50
     }
     document.querySelector("#delivery").innerText="Delivery Charge : Rs "+ delivery;
-    var total=Math.floor(price-(price*0.1)-delivery)
+    var total=Math.floor(price-(discount)-delivery)
     document.querySelector("#total").innerText="Total : Rs "+ total;
+    localStorage.setItem("pay",total);
     cartItem.forEach(function(item,index)
     {
         var box=document.createElement("div");

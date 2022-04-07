@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+</head>
+<style>
+    #head{
+        color: rgb(59, 59, 235);
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    #container{
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        margin: auto;
+        border-radius: 10px;
+        padding: 18px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    }
+    #container>input,button{
+        border-radius: 4px;
+        border: 1px solid gray;
+        margin: 5px 0px;
+        padding: 3px;
+    }
+    #container>p{
+        margin-top: -5px;
+    }
+    #container>h4{
+        margin-top: -0.2px;
+        color: blue;
+    }
+    hr{
+        width: 100%;
+        border: 0.3px solid black;
+    }
+    #container input:hover{
+        border: 1.5px solid blue;
+    }
+    #container>button{
+       color: white;
+        background-color: rgb(33, 118, 222);
+    }
+    #container>button:hover{
+        cursor: pointer;
+        border: 1px solid rgb(86, 135, 193);
+        background-color: rgb(71, 124, 189);
+    }
+</style>
+<body>
+    <h2 id="head">Verify Your Card</h2>
+   <div id="container">
+    <p>Merchant : Netflix</p>
+    <p id="payment">Transaction Amount: INR 0.00</p>
+    <p>SBI Debit Card   : XXXX XXXX XXXX 1234</p>
+    <hr>
+    <h4>Authenticate Payment</h4>
+    <p>OTP sent to mobile number ending 98</p>
+
+    <label for="">Enter One Time Password (OTP)</label>
+    <input id="otp" type="number">
+
+    <button id="button">Make Payment</button>
+   </div>
+    
+</body>
+
+<script>
+   if(localStorage.getItem("pay"))
+   {
+       document.querySelector("#payment").innerHTML="Transaction Amount:  INR "+localStorage.getItem("pay") ;
+
+   }
+   else
+   {
+    document.querySelector("#payment").innerHTML="Transaction Amount:  INR "+0.00 ;
+   }
+    document.querySelector("button").addEventListener("click", function(){
+        var otp=document.querySelector("#otp").value;
+
+        if(otp==1234){
+            alert("Payment Successfull");
+            window.location.href="Home.html"
+        }
+        else{
+            alert("Invalid OTP")
+        }
+    })
+</script>
+</html>
